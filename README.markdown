@@ -5,7 +5,7 @@ This style guide is meant to keep the code in our projects clear and consistent 
 ## Table of Contents
 
 * [Correctness](#correctness)
-* [Using SwiftLint](#using-swiftlint)
+* [SwiftLint](#swiftlint)
 * [Naming](#naming)
   * [Class Prefixes](#class-prefixes)
   * [Delegates](#delegates)
@@ -56,7 +56,7 @@ This style guide is meant to keep the code in our projects clear and consistent 
 
 Strive to make your code compile without warnings. This rule informs many style decisions such as using `#selector` types instead of string literals.
 
-## Using SwiftLint
+## SwiftLint
 
 See the [SwiftLint Policy](SWIFTLINT.markdown) for more information.
 
