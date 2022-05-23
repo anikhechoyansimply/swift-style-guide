@@ -307,8 +307,13 @@ Here's an example of a well-styled class definition:
 
 ```swift
 class Circle: Shape {
-  var x: Int, y: Int
+
+  var x: Int
+  
+  var y: Int
+  
   var radius: Double
+  
   var diameter: Double {
     get {
       return radius * 2
@@ -331,23 +336,27 @@ class Circle: Shape {
   override func area() -> Double {
     return Double.pi * radius * radius
   }
+  
 }
 
 extension Circle: CustomStringConvertible {
+
   var description: String {
-    return "center = \(centerString) area = \(area())"
+    "center = \(centerString) area = \(area())"
   }
+  
   private var centerString: String {
-    return "(\(x),\(y))"
+    "(\(x),\(y))"
   }
+  
 }
 ```
 
 The example above demonstrates the following style guidelines:
 
  + Specify types for properties, variables, constants, argument declarations and other statements with a space after the colon but not before, e.g. `x: Int`, and `Circle: Shape`.
- + Define multiple variables and structures on a single line if they share a common purpose / context.
- + Indent getter and setter definitions and property observers.
+ + Add an empty line after the `class`/`extension` opening brace and before the closing one.
+ + Separate method and property definitions/declarations with empty lines.
  + Don't add modifiers such as `internal` when they're already the default. Similarly, don't repeat the access modifier when overriding a method.
  + Organize extra functionality (e.g. printing) in extensions.
  + Hide non-shared, implementation details such as `centerString` inside the extension using `private` access control.
@@ -361,12 +370,12 @@ Use self only when required by the compiler (in `@escaping` closures, or in init
 
 ### Computed Properties
 
-For conciseness, if a computed property is read-only, omit the get clause. The get clause is required only when a set clause is provided.
+For conciseness, if a computed property is read-only, omit the get clause. The get clause is required only when a set clause is provided. Also, in case of a single statement, omit the `return` keyword.
 
 **Preferred**:
 ```swift
 var diameter: Double {
-  return radius * 2
+  radius * 2
 }
 ```
 
@@ -381,17 +390,8 @@ var diameter: Double {
 
 ### Final
 
-Marking classes or members as `final` in tutorials can distract from the main topic and is not required. Nevertheless, use of `final` can sometimes clarify your intent and is worth the cost. In the below example, `Box` has a particular purpose and customization in a derived class is not intended. Marking it `final` makes that clear.
-
-```swift
-// Turn any generic type into a reference type using this Box class.
-final class Box<T> {
-  let value: T
-  init(_ value: T) {
-    self.value = value
-  }
-}
-```
+Marking classes or members as `final` is not required. Just make sure the Whole Module optimization for Swift compiler is turned on in Xcode to reduce dynamic dispatch. 
+Nevertheless, use of `final` can sometimes clarify your intent and is worth the cost.
 
 ## Function Declarations
 
@@ -453,7 +453,8 @@ let success = reticulateSplines(
   spline: splines,
   adjustmentFactor: 1.3,
   translateConstant: 2,
-  comment: "normalize the display")
+  comment: "normalize the display"
+)
 ```
 
 ## Closure Expressions
@@ -565,7 +566,7 @@ Static methods and type properties work similarly to global functions and global
 
 Declare variables and function return types as optional with `?` where a `nil` value is acceptable.
 
-Use implicitly unwrapped types declared with `!` only for instance variables that you know will be initialized later before use, such as subviews that will be set up in `viewDidLoad()`. Prefer optional binding to implicitly unwrapped optionals in most other cases.
+Use implicitly unwrapped types declared with `!` only for instance variables that you know will be initialized later before use. Prefer optional binding to implicitly unwrapped optionals in most other cases.
 
 When accessing an optional value, use optional chaining if the value is only accessed once or if there are many optionals in the chain:
 
@@ -623,7 +624,7 @@ UIView.animate(withDuration: 2.0) { [weak self] in
 
 ### Lazy Initialization
 
-Consider using lazy initialization for finer grained control over object lifetime. This is especially true for `UIViewController` that loads views lazily. You can either use a closure that is immediately called `{ }()` or call a private factory method. Example:
+Consider using lazy initialization for finer grained control over object lifetime. You can either use a closure that is immediately called `{ }()` or call a private factory method. Example:
 
 ```swift
 lazy var locationManager = makeLocationManager()
@@ -724,7 +725,7 @@ let value = max(x, y, z)  // another free function that feels natural
 
 ## Memory Management
 
-Code (even non-production, tutorial demo code) should not create reference cycles. Analyze your object graph and prevent strong cycles with `weak` and `unowned` references. Alternatively, use value types (`struct`, `enum`) to prevent cycles altogether.
+Code (even non-production) should not create reference cycles. Analyze your object graph and prevent strong cycles with `weak` and `unowned` references. Alternatively, use value types (`struct`, `enum`) to prevent cycles altogether.
 
 ### Extending object lifetime
 
@@ -761,18 +762,18 @@ resource.request().onComplete { [weak self] response in
 
 ## Access Control
 
-Full access control annotation in tutorials can distract from the main topic and is not required. Using `private` and `fileprivate` appropriately, however, adds clarity and promotes encapsulation. Prefer `private` to `fileprivate`; use `fileprivate` only when the compiler insists.
+Using `private` and `fileprivate` appropriately, adds clarity and promotes encapsulation. Prefer `private` to `fileprivate`; use `fileprivate` only when the compiler insists.
 
 Only explicitly use `open`, `public`, and `internal` when you require a full access control specification.
 
-Use access control as the leading property specifier. The only things that should come before access control are the `static` specifier or attributes such as `@IBAction`, `@IBOutlet` and `@discardableResult`.
+Use access control as the leading property specifier. The only things that should come before access control are the `static` specifier or attributes such as `@State`, `@Binding` and `@discardableResult`.
 
 **Preferred**:
 ```swift
 private let message = "Great Scott!"
 
 class TimeMachine {  
-  private dynamic lazy var fluxCapacitor = FluxCapacitor()
+  private lazy var fluxCapacitor = FluxCapacitor()
 }
 ```
 
@@ -781,7 +782,7 @@ class TimeMachine {
 fileprivate let message = "Great Scott!"
 
 class TimeMachine {  
-  lazy dynamic private var fluxCapacitor = FluxCapacitor()
+  lazy private var fluxCapacitor = FluxCapacitor()
 }
 ```
 
@@ -881,15 +882,13 @@ func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies 
 }
 ```
 
-When multiple optionals are unwrapped either with `guard` or `if let`, minimize nesting by using the compound version when possible. In the compound version, place the `guard` on its own line, then indent each condition on its own line. The `else` clause is indented to match the `guard` itself, as shown below. Example:
+When multiple optionals are unwrapped either with `guard` or `if let`, minimize nesting by using the compound version when possible. Example:
 
 **Preferred**:
 ```swift
-guard 
-  let number1 = number1,
-  let number2 = number2,
-  let number3 = number3 
-else {
+guard let number1 = number1,
+      let number2 = number2,
+      let number3 = number3 else {
   fatalError("impossible")
 }
 // do something with numbers
@@ -1002,69 +1001,18 @@ Do not use emoji in your projects. For those readers who actually type in their 
 
 ## No #imageLiteral or #colorLiteral
 
-Likewise, do not use Xcode's ability to drag a color or an image into a source statement. These turn into #colorLiteral and #imageLiteral, respectively, and present unpleasant challenges for a reader trying to enter them based on tutorial text. Instead, use `UIColor(red:green:blue)` and `UIImage(imageLiteralResourceName:)`.
-
-## Organization and Bundle Identifier
-
-Where an Xcode project is involved, the organization should be set to `Ray Wenderlich` and the Bundle Identifier set to `com.raywenderlich.TutorialName` where `TutorialName` is the name of the tutorial project.
-
-![Xcode Project settings](screens/project_settings.png)
+Likewise, do not use Xcode's ability to drag a color or an image into a source statement. These turn into #colorLiteral and #imageLiteral, respectively, and present unpleasant challenges for a reader. Instead, use `UIColor(red:green:blue)` and `UIImage(imageLiteralResourceName:)`.
 
 ## Copyright Statement
 
-The following copyright statement should be included at the top of every source
-file:
+No copyright statement should be included at the top of every source
+file.
 
-```swift
-/// Copyright (c) 2022 Razeware LLC
-/// 
-/// Permission is hereby granted, free of charge, to any person obtaining a copy
-/// of this software and associated documentation files (the "Software"), to deal
-/// in the Software without restriction, including without limitation the rights
-/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-/// copies of the Software, and to permit persons to whom the Software is
-/// furnished to do so, subject to the following conditions:
-/// 
-/// The above copyright notice and this permission notice shall be included in
-/// all copies or substantial portions of the Software.
-/// 
-/// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
-/// distribute, sublicense, create a derivative work, and/or sell copies of the
-/// Software in any work that is designed, intended, or marketed for pedagogical or
-/// instructional purposes related to programming, coding, application development,
-/// or information technology.  Permission for such use, copying, modification,
-/// merger, publication, distribution, sublicensing, creation of derivative works,
-/// or sale is expressly withheld.
-/// 
-/// This project and source code may use libraries or frameworks that are
-/// released under various Open-Source licenses. Use of those libraries and
-/// frameworks are governed by their own individual licenses.
-///
-/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-/// THE SOFTWARE.
-```
-
-## Smiley Face
-
-Smiley faces are a very prominent style feature of the [raywenderlich.com](https://www.raywenderlich.com/) site! It is very important to have the correct smile signifying the immense amount of happiness and excitement for the coding topic. The closing square bracket `]` is used because it represents the largest smile able to be captured using ASCII art. A closing parenthesis `)` creates a half-hearted smile, and thus is not preferred.
-
-**Preferred**:
-```
-:]
-```
-
-**Not Preferred**:
-```
-:)
-```
+Just leave an empty line at the beginning and at the end of every file.
 
 ## References
 
+* [raywenderlich/swift-style-guide](https://github.com/raywenderlich/swift-style-guide) 
 * [The Swift API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
 * [The Swift Programming Language](https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/index.html)
 * [Using Swift with Cocoa and Objective-C](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/index.html)
