@@ -46,9 +46,7 @@ This style guide is meant to keep the code in our projects clear and consistent 
 * [Multi-line String Literals](#multi-line-string-literals)
 * [No Emoji](#no-emoji)
 * [No #imageLiteral or #colorLiteral](#no-imageliteral-or-colorliteral)
-* [Organization and Bundle Identifier](#organization-and-bundle-identifier)
 * [Copyright Statement](#copyright-statement)
-* [Smiley Face](#smiley-face)
 * [References](#references)
 
 
