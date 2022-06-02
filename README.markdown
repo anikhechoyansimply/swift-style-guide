@@ -26,6 +26,7 @@ This style guide is meant to keep the code in our projects clear and consistent 
 * [Function Declarations](#function-declarations)
 * [Function Calls](#function-calls)
 * [Closure Expressions](#closure-expressions)
+* [Tuples](#tuples)
 * [Types](#types)
   * [Constants](#constants)
   * [Static Methods and Variable Type Properties](#static-methods-and-variable-type-properties)
