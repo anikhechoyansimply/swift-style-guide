@@ -504,6 +504,10 @@ let value = numbers
   .map {$0 + 10}
 ```
 
+## Tuples
+
+Tuples are very useful for simple groups of relevant values, e. g. `(key: String, value: Any)`. However, they have some limitations restricting their use in cases where additional data structures and functionalities are needed. That's why it's good to keep the tuples simple and use the small number of arguments (max 4).
+
 ## Types
 
 Always use Swift's native types and expressions when available. Swift offers bridging to Objective-C so you can still use the full set of methods as needed.
