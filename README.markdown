@@ -14,6 +14,7 @@ This style guide is meant to keep the code in our projects clear and consistent 
   * [Language](#language)
 * [Code Organization](#code-organization)
   * [Protocol Conformance](#protocol-conformance)
+  * [Ordering](#ordering)
   * [Unused Code](#unused-code)
   * [Minimal Imports](#minimal-imports)
 * [Spacing](#spacing)
@@ -201,6 +202,32 @@ class MyViewController: UIViewController, UITableViewDataSource, UIScrollViewDel
 Since the compiler does not allow you to re-declare protocol conformance in a derived class, it is not always required to replicate the extension groups of the base class. This is especially true if the derived class is a terminal class and a small number of methods are being overridden. When to preserve the extension groups is left to the discretion of the author.
 
 For UIKit view controllers, consider grouping lifecycle, custom accessors, and IBAction in separate class extensions.
+
+### Ordering
+
+* Files in folders should be placed in alphabetical order.
+* Importing of files and packages should alphabetically be ordered.
+* Declaration order of properties is:
+  - attributes such as `@State`, `@Binding` and `@discardableResult`
+  - `static` specifier
+  - access control modifiers such as `open`, `public`, etc.
+  - `override` keyword
+  - `lazy` keyword
+  - `let`/`var`
+* Decleration of functions and methods is similar to properties.
+* Declaration regarding the whole file is: 
+  - imports
+  - global `typealias` definitions
+  - `protocol` definitions
+  - type definitions (`enum` > `struct` > `class`)
+  - extensions
+* Order of the statements in type definitions is:
+  - local `typealias` definitions
+  - nested type definitions
+  - properties (`public` > `private`)
+  - inits (`required` > `override` > `convenience` > custom)
+  - SwiftUI `body` property
+  - methods (`public` > `private`)
 
 ### Unused Code
 
