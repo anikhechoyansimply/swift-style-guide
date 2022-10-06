@@ -88,7 +88,7 @@ Descriptive and consistent naming makes software easier to read and understand. 
 - preferring to name the first parameter instead of including its name in the method name, except as mentioned under Delegates
 - labeling closure and tuple parameters
 - taking advantage of default parameters
-- beginning read-only boolean computed properties with `is` and boolean stored properties with `should`
+- beginning read-only boolean computed properties with `is` and settable boolean properties with `should`
 
 ### Class Prefixes
 
