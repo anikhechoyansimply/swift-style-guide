@@ -222,12 +222,19 @@ For UIKit view controllers, consider grouping lifecycle, custom accessors, and I
   - `protocol` definitions
   - type definitions (`enum` > `struct` > `class`)
   - extensions
-* Order of the statements in type definitions is:
+* Order of the statements in View type definition is:
   - local `typealias` definitions
   - nested type definitions
-  - properties (`public` > `private`)
+  - stored properties (see the "Declaration order of properties" above)
   - inits (`required` > `override` > `convenience` > custom)
   - SwiftUI `body` property
+  - computed properties (see the "Declaration order of properties" above)
+  - methods (`public` > `private`)
+* Order of the statements in other type definitions is:
+  - local `typealias` definitions
+  - nested type definitions
+  - properties (see the "Declaration order of properties" above)
+  - inits (`required` > `override` > `convenience` > custom)
   - methods (`public` > `private`)
 
 ### Unused Code
