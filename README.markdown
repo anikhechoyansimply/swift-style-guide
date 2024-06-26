@@ -214,7 +214,8 @@ For UIKit view controllers, consider grouping lifecycle, custom accessors, and I
   - access control modifiers such as `open`, `public`, etc.
   - `override` keyword
   - `lazy` keyword
-  - `let`/`var`
+  - `var` keyword
+  - `let` keyword
 * Decleration of functions and methods is similar to properties.
 * Declaration regarding the whole file is: 
   - imports
